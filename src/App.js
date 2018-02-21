@@ -10,34 +10,31 @@ const SHIP_MISS = 1;
 
 class App extends Component {
 
-    constructor() {
-        state = {
-            playerOneData = [{
+    constructor(props) {
+        super(props); 
+        this.state = {
+            playerOneData : {
                 isAllShipOnBoard: false,
                 shipPosition: [],
                 playerTwoReaminingShip : 0,
                 shipTouchedPosition: [],
                 shipMissedPosition: []
-            }],
-            playerTwoData = [{
+            },
+            playerTwoData : {
                 isAllShipOnBoard: false,
                 shipPosition: [],
                 playerTwoReaminingShip : 0,
                 shipTouchedPosition: [],
                 shipMissedPosition: []
-            }],
+            },
         };
 
-        this.playerOneData = [{
-            remaingShip: MAX_SHIP_PER_PLAYER,
-            playerTwoShipPosition: [],
+        this.playerOneData = {
             bombSend: 0
-        }];
-        this.playerTwoData = [{
-            remaingShip: MAX_SHIP_PER_PLAYER,
-            playerTwoShipPosition: [],
+        };
+        this.playerTwoData = {
             bombSend: 0
-        }];
+        };
     }
 
   render() {
