@@ -28,6 +28,7 @@ const myData = {
 			playerTwoShipPosition: [],
 			bombSend: 0
 		}];
+
 		this.playerTwoData = [{
 			remaingShip: MAX_SHIP_PER_PLAYER,
 			playerTwoShipPosition: [],
