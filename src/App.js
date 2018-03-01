@@ -32,6 +32,21 @@ class App extends Component {
         };
     }
 
+    initBoard = (player) => {
+        const createBoard = () => {
+            for(let i = 0; i <= BOARD_SIZE; i++) {
+                // add WATER to an array
+            }
+        }
+
+        if (this.state.player.board === []) {
+            this.setState(
+                // put the loop in the board stae
+            )
+        }
+        
+    }
+
     render() {
         return (
         <div className="App">
