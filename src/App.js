@@ -40,6 +40,16 @@ class App extends Component {
         };
     }
 
+    putBoatOnBoard = (caseNum, rowNum) => {
+        console.log(caseNum, rowNum)
+        // this.setState({
+        //     ...this.state, playerOneData : {
+        //         ...this.state.playerOneData, 
+        //         initialBoard[rowNum][caseNum]: BOAT
+        //     }
+        // })
+    }
+
     render() {
         return (
         <div className="App">
@@ -51,6 +61,7 @@ class App extends Component {
                             <h2>Placez vos batteaux J1</h2>
                             <InitView 
                                 initialBoard={this.state.playerOneData.initialBoard}
+                                putBoatOnBoard={this.putBoatOnBoard}
                             />
                         </div>
                     </div>
@@ -59,6 +70,7 @@ class App extends Component {
                             <h2>Placez vos batteaux J2</h2>
                             <InitView 
                                 initialBoard={this.state.playerOneData.initialBoard}
+                                putBoatOnBoard={this.putBoatOnBoard}
                             />
                         </div>
                     </div>

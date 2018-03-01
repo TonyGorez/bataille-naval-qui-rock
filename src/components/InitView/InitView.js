@@ -8,10 +8,13 @@ const InitView = (props) => {
 			<tbody>
 				{props.initialBoard.map((row, rowNum) => {
 					return <tr key={rowNum}>{
-						row.map((point, pointKey) => {
+						row.map((myCase, caseNum) => {
 							return <td 
-										key={uuidV4+pointKey}>
-										{point}
+										key={uuidV4+caseNum}
+										x={caseNum}
+										y={rowNum}
+										onClick={() => props.putBoatOnBoard(caseNum, rowNum)}>
+										{myCase}
 									</td>
 						})
 					}
