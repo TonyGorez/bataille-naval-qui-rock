@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 
 import './App.css';
 
-const BOARD_SIZE = 10;
+import GameView from './components/GameView/GameView';
+import InitView from './components/InitView/InitView';  
+
 const PLAYER_QUANTITY = 2;
 const MAX_SHIP_PER_PLAYER = 10;
 const SHIP_TOUCHED = "X";
 const SHIP_MISS = "M";
-const WATER = 0;
 const BOAT = 1; 
+const BOARD = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
 
 class App extends Component {
 
@@ -16,26 +24,49 @@ class App extends Component {
         super(props); 
 
         this.state = {
-            playerOneData : {
+            playerOneData: {
                 isAllShipOnBoard: false,
-                reaminingShip : 0,
-                board: []
+                reaminingShip: 0,
+                initialBoard: BOARD,
+                gameBoard: []
+
             },
-            playerTwoData : {
+            playerTwoData: {
                 isAllShipOnBoard: false,
-                reaminingShip : 0,
-                board: []
+                reaminingShip: 0,
+                initialBoard: BOARD,
+                gameBoard: []
             },
         };
     }
 
     render() {
         return (
-            <div className="App">
-                <div>YOOOOO</div>
+        <div className="App">
+            <h1> Un bataille qu'elle navale bien !</h1>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className="playerOne">
+                            <h2>Placez vos batteaux J1</h2>
+                            <InitView 
+                                initialBoard={this.state.playerOneData.initialBoard}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="playerTwo">
+                            <h2>Placez vos batteaux J2</h2>
+                            <InitView 
+                                initialBoard={this.state.playerOneData.initialBoard}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
         );
-  }
+    }
 }
 
 export default App;
