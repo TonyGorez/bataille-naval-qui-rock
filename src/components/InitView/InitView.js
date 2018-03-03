@@ -6,7 +6,7 @@ const InitView = (props) => {
 	return(
 		<table>
 			<tbody>
-				{props.initialBoard.map((row, rowNum) => {
+				{props.formationBoard.map((row, rowNum) => {
 					return <tr key={rowNum}>{
 						row.map((myCase, caseNum) => {
 							return <td 
