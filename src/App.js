@@ -5,7 +5,6 @@ import './App.css';
 import GameView from './components/GameView/GameView';
 import InitView from './components/InitView/InitView';  
 
-const PLAYER_QUANTITY = 2;
 const MAX_SHIP_PER_PLAYER = 10;
 const SHIP_STATE_TOUCHED = "X";
 const SHIP_STATE_MISSED = "M";
@@ -22,14 +21,14 @@ class App extends Component {
             playerOneData: {
                 isAllShipOnBoard: false,
                 reaminingShip: 0,
-                initialBoard: this.getIntializedBoard(),
-                gameBoard: []
+                formationBoard: this.getIntializedBoard(),
+                gameBoard: this.getIntializedBoard()
             },
             playerTwoData: {
                 isAllShipOnBoard: false,
                 reaminingShip: 0,
-                initialBoard: this.getIntializedBoard(),
-                gameBoard: []
+                formationBoard: this.getIntializedBoard(),
+                gameBoard: this.getIntializedBoard()
             },
         };
 
@@ -53,13 +52,13 @@ class App extends Component {
             return null; 
         };
 
-        const newBoard = this.state[playerName].initialBoard;
+        const newBoard = this.state[playerName].formationBoard;
         newBoard[rowNum][caseNum] = SLOT_BOAT;
         this.setState({
             ...this.state, 
             [playerName]: {
                 ...this.state[playerName], 
-                initialBoard: newBoard 
+                formationBoard: newBoard 
             }
         }, () => {
             this.shipOnBoard[playerName]++; 
@@ -75,6 +74,10 @@ class App extends Component {
         });
     }
 
+    putBombOnBoard = (caseNum, rowNum, playerName) => {
+        
+    }
+
     render() {
         return (
         <div className="App">
@@ -86,13 +89,20 @@ class App extends Component {
                             {
                                 this.state.playerOneData.isAllShipOnBoard && this.state.playerTwoData.isAllShipOnBoard
                                 ? (
-                                    <h2>C'est la guerre !</h2>
+                                    <React.Fragment>
+                                        <h2>C'est la guerre !</h2>
+                                        <GameView 
+                                            gameBoard={this.state.playerOneData.gameBoard}
+                                            putBombOnBoard={this.putBombOnBoard}
+                                            playerName="playerOneData"
+                                        />
+                                    </React.Fragment>
                                 )
                                 : (
                                     <React.Fragment>
                                         <h2>Placez vos batteaux J1</h2>
                                         <InitView 
-                                            initialBoard={this.state.playerOneData.initialBoard}
+                                            formationBoard={this.state.playerOneData.formationBoard}
                                             putBoatOnBoard={this.putBoatOnBoard}
                                             playerName="playerOneData"
                                         />
@@ -106,13 +116,20 @@ class App extends Component {
                             {
                                 this.state.playerOneData.isAllShipOnBoard && this.state.playerTwoData.isAllShipOnBoard
                                 ? (
-                                    <h2>C'est la guerre !</h2>
+                                    <React.Fragment>
+                                        <h2>C'est la guerre !</h2>
+                                        <GameView 
+                                            gameBoard={this.state.playerOneData.gameBoard}
+                                            putBombOnBoard={this.putBombOnBoard}
+                                            playerName="playerTwoData"
+                                        />
+                                    </React.Fragment>
                                 )
                                 : (
                                     <React.Fragment>
                                         <h2>Placez vos batteaux J2</h2>
                                         <InitView 
-                                            initialBoard={this.state.playerTwoData.initialBoard}
+                                            formationBoard={this.state.playerTwoData.formationBoard}
                                             putBoatOnBoard={this.putBoatOnBoard}
                                             playerName="playerTwoData"
                                         />
