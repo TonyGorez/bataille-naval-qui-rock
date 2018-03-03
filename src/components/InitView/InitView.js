@@ -13,7 +13,7 @@ const InitView = (props) => {
 										key={uuidV4+caseNum}
 										x={caseNum}
 										y={rowNum}
-										onClick={() => props.putBoatOnBoard(caseNum, rowNum)}>
+										onClick={() => props.putBoatOnBoard(caseNum, rowNum, props.playerName)}>
 										{myCase}
 									</td>
 						})
