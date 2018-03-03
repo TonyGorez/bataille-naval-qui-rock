@@ -7,16 +7,11 @@ import InitView from './components/InitView/InitView';
 
 const PLAYER_QUANTITY = 2;
 const MAX_SHIP_PER_PLAYER = 10;
-const SHIP_TOUCHED = "X";
-const SHIP_MISS = "M";
-const BOAT = 1; 
-const BOARD = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
+const SHIP_STATE_TOUCHED = "X";
+const SHIP_STATE_MISSED = "M";
+const SLOT_BOAT = 1; 
+const SLOT_WATER = 0;
+const BOARD_SIZE = 10;
 
 class App extends Component {
 
@@ -27,27 +22,57 @@ class App extends Component {
             playerOneData: {
                 isAllShipOnBoard: false,
                 reaminingShip: 0,
-                initialBoard: BOARD,
+                initialBoard: this.getIntializedBoard(),
                 gameBoard: []
-
             },
             playerTwoData: {
                 isAllShipOnBoard: false,
                 reaminingShip: 0,
-                initialBoard: BOARD,
+                initialBoard: this.getIntializedBoard(),
                 gameBoard: []
             },
         };
+
+        this.shipOnBoard = {
+            playerOneData: 0,
+            playerTwoData: 0
+        }
     }
 
-    putBoatOnBoard = (caseNum, rowNum) => {
-        console.log(caseNum, rowNum)
-        // this.setState({
-        //     ...this.state, playerOneData : {
-        //         ...this.state.playerOneData, 
-        //         initialBoard[rowNum][caseNum]: BOAT
-        //     }
-        // })
+    getIntializedBoard = () => {
+        const board = []; 
+        for (let i = 0; i <= BOARD_SIZE; i++) {
+            board[i] = new Array(10);
+            board[i].fill(SLOT_WATER);
+        }
+        return board; 
+    }
+
+    putBoatOnBoard = (caseNum, rowNum, playerName) => {
+        if (this.state[playerName].isAllShipOnBoard) {
+            return null; 
+        };
+
+        const newBoard = this.state[playerName].initialBoard;
+        newBoard[rowNum][caseNum] = SLOT_BOAT;
+        this.setState({
+            ...this.state, 
+            [playerName]: {
+                ...this.state[playerName], 
+                initialBoard: newBoard 
+            }
+        }, () => {
+            this.shipOnBoard[playerName]++; 
+            if (this.shipOnBoard[playerName] >= (MAX_SHIP_PER_PLAYER)) {
+                this.setState({
+                    ...this.state,
+                    [playerName]: {
+                        ...this.state[playerName], 
+                        isAllShipOnBoard: true
+                    }
+                })
+            }
+        });
     }
 
     render() {
@@ -58,20 +83,42 @@ class App extends Component {
                 <div className="row">
                     <div className="col-md-6">
                         <div className="playerOne">
-                            <h2>Placez vos batteaux J1</h2>
-                            <InitView 
-                                initialBoard={this.state.playerOneData.initialBoard}
-                                putBoatOnBoard={this.putBoatOnBoard}
-                            />
+                            {
+                                this.state.playerOneData.isAllShipOnBoard && this.state.playerTwoData.isAllShipOnBoard
+                                ? (
+                                    <h2>C'est la guerre !</h2>
+                                )
+                                : (
+                                    <React.Fragment>
+                                        <h2>Placez vos batteaux J1</h2>
+                                        <InitView 
+                                            initialBoard={this.state.playerOneData.initialBoard}
+                                            putBoatOnBoard={this.putBoatOnBoard}
+                                            playerName="playerOneData"
+                                        />
+                                    </React.Fragment>
+                                )
+                            }
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="playerTwo">
-                            <h2>Placez vos batteaux J2</h2>
-                            <InitView 
-                                initialBoard={this.state.playerOneData.initialBoard}
-                                putBoatOnBoard={this.putBoatOnBoard}
-                            />
+                            {
+                                this.state.playerOneData.isAllShipOnBoard && this.state.playerTwoData.isAllShipOnBoard
+                                ? (
+                                    <h2>C'est la guerre !</h2>
+                                )
+                                : (
+                                    <React.Fragment>
+                                        <h2>Placez vos batteaux J2</h2>
+                                        <InitView 
+                                            initialBoard={this.state.playerTwoData.initialBoard}
+                                            putBoatOnBoard={this.putBoatOnBoard}
+                                            playerName="playerTwoData"
+                                        />
+                                    </React.Fragment>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
