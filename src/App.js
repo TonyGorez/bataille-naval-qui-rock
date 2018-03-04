@@ -76,34 +76,34 @@ class App extends Component {
 
     putBombOnBoard = (caseNum, rowNum, playerName) => {
         playerName === "playerOneData"
-        ? this.playOnPlayerTwoBoard(caseNum, rowNum)
-        : this.playOnPlayerOneBoard(caseNum, rowNum);
+        ? this.playOnPlayerOneBoard(caseNum, rowNum)
+        : this.playOnPlayerTwoBoard(caseNum, rowNum);
     }
 
     playOnPlayerOneBoard = function(caseNum, rowNum) {
-        const playerOneBoard = this.state.playerOneData.formationBoard;
-        const currentPlayerGameBoard = this.state.playerTwoData.gameBoard; 
+        const playerTwoBoard = this.state.playerTwoData.formationBoard;
+        const currentPlayerGameBoard = [...this.state.playerOneData.gameBoard]; 
 
-        switch (playerOneBoard[rowNum][caseNum]) {
-            case SLOT_WATER :
+        switch (playerTwoBoard[rowNum][caseNum]) {
+            case SLOT_WATER : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_MISSED;
                 this.setState({
                     ...this.state,
-                    playerTwoData: {
-                        ...this.state.playerTwoData,
+                    playerOneData: {
+                        ...this.state.playerOneData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () => console.log(this.state.playerTwoData.gameBoard));
+                }, () => console.log(this.state.playerOneData.gameBoard));
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
                 this.setState({
                     ...this.state,
-                    playerTwoData: {
-                        ...this.state.playerTwoData,
+                    playerOneData: {
+                        ...this.state.playerOneData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () => console.log(this.state.playerTwoData.gameBoard));
+                }, () => console.log(this.state.playerOneData.gameBoard));
                 break;
             case SHIP_STATE_MISSED : 
                 console.log('T as deja shooter ici et c est vide')
@@ -117,17 +117,17 @@ class App extends Component {
         }
     }
 
-    playOnPlayerTwoBoard = function(caseNum, rowNum) {
-        const playerTwoBoard = this.state.playerTwoData.formationBoard;
-        const currentPlayerGameBoard = this.state.playerOneData.gameBoard;
+    playOnPlayerTwoBoard = (caseNum, rowNum) => {
+        const playerOneBoard = this.state.playerOneData.formationBoard;
+        const currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard];
 
-        switch (playerTwoBoard[rowNum][caseNum]) {
-            case SLOT_WATER :
+        switch (playerOneBoard[rowNum][caseNum]) {
+            case SLOT_WATER : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_MISSED;
                 this.setState({
                     ...this.state,
-                    playerOneData: {
-                        ...this.state.playerOneData,
+                    playerTwoData: {
+                        ...this.state.playerTwoData,
                         gameBoard: currentPlayerGameBoard
                     }
                 }, () => console.log(this.state.playerTwoData.gameBoard));
@@ -136,8 +136,8 @@ class App extends Component {
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
                 this.setState({
                     ...this.state,
-                    playerOneData: {
-                        ...this.state.playerOneData,
+                    playerTwoData: {
+                        ...this.state.playerTwoData,
                         gameBoard: currentPlayerGameBoard
                     }
                 }, () => console.log(this.state.playerTwoData.gameBoard));
@@ -150,7 +150,7 @@ class App extends Component {
                 break; 
             default :
                 console.log('Pas possible ici man')
-                break;
+                break; 
         }
     }
 
@@ -195,7 +195,7 @@ class App extends Component {
                                     <React.Fragment>
                                         <h2>C'est la guerre !</h2>
                                         <GameView 
-                                            gameBoard={this.state.playerOneData.gameBoard}
+                                            gameBoard={this.state.playerTwoData.gameBoard}
                                             putBombOnBoard={this.putBombOnBoard}
                                             playerName="playerTwoData"
                                         />
