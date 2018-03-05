@@ -20,13 +20,13 @@ class App extends Component {
         this.state = {
             playerOneData: {
                 isAllShipOnBoard: false,
-                reaminingShip: 0,
+                opponentRemainingShip: 0,
                 formationBoard: this.getIntializedBoard(),
                 gameBoard: this.getIntializedBoard()
             },
             playerTwoData: {
                 isAllShipOnBoard: false,
-                reaminingShip: 0,
+                opponentRemainingShip: 0,
                 formationBoard: this.getIntializedBoard(),
                 gameBoard: this.getIntializedBoard()
             },
@@ -77,13 +77,16 @@ class App extends Component {
     putBombOnBoard = (caseNum, rowNum, playerName) => {
         let opponentBoard = [];
         let currentPlayerGameBoard = [];
+        let opponentRemainingShip; 
 
         if (playerName ===  'playerOneData')  {
             opponentBoard = this.state.playerTwoData.formationBoard;
             currentPlayerGameBoard = [...this.state.playerOneData.gameBoard];
+            opponentRemainingShip = [...this.state.playerOneData.opponentRemainingShip];
         } else {
             opponentBoard = this.state.playerOneData.formationBoard;
             currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard];
+            opponentRemainingShip = [...this.state.playerTwoData.opponentRemainingShip];
         }
 
         switch (opponentBoard[rowNum][caseNum]) {
@@ -99,11 +102,13 @@ class App extends Component {
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
+                opponentRemainingShip++;
                 this.setState({
                     ...this.state,
                     [playerName]: {
                         ...this.state[playerName],
-                        gameBoard: currentPlayerGameBoard
+                        gameBoard: currentPlayerGameBoard,
+                        opponentRemainingShip
                     }
                 })
                 break;
