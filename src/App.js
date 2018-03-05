@@ -93,7 +93,7 @@ class App extends Component {
                         ...this.state.playerOneData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () => console.log(this.state.playerOneData.gameBoard));
+                }, () =>  this.state);
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
@@ -103,7 +103,7 @@ class App extends Component {
                         ...this.state.playerOneData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () => console.log(this.state.playerOneData.gameBoard));
+                }, () =>  this.state);
                 break;
             case SHIP_STATE_MISSED : 
                 console.log('T as deja shooter ici et c est vide')
@@ -130,7 +130,7 @@ class App extends Component {
                         ...this.state.playerTwoData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () =>  currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard]);
+                }, () =>  this.state); 
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
@@ -140,7 +140,7 @@ class App extends Component {
                         ...this.state.playerTwoData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () =>  currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard]);
+                }, () =>  this.state);
                 break;
             case SHIP_STATE_MISSED : 
                 console.log('T as deja shooter ici et c est vide')
