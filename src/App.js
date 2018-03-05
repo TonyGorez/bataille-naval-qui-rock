@@ -75,81 +75,40 @@ class App extends Component {
     }
 
     putBombOnBoard = (caseNum, rowNum, playerName) => {
-        playerName === "playerOneData"
-        ? this.playOnPlayerOneBoard(caseNum, rowNum)
-        : this.playOnPlayerTwoBoard(caseNum, rowNum);
-    }
+        let opponentBoard = [];
+        let currentPlayerGameBoard = [];
 
-    playOnPlayerOneBoard = function(caseNum, rowNum) {
-        const playerTwoBoard = this.state.playerTwoData.formationBoard;
-        const currentPlayerGameBoard = [...this.state.playerOneData.gameBoard]; 
-
-        switch (playerTwoBoard[rowNum][caseNum]) {
-            case SLOT_WATER : 
-                currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_MISSED;
-                this.setState({
-                    ...this.state,
-                    playerOneData: {
-                        ...this.state.playerOneData,
-                        gameBoard: currentPlayerGameBoard
-                    }
-                }, () =>  this.state);
-                break;
-            case SLOT_BOAT : 
-                currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
-                this.setState({
-                    ...this.state,
-                    playerOneData: {
-                        ...this.state.playerOneData,
-                        gameBoard: currentPlayerGameBoard
-                    }
-                }, () =>  this.state);
-                break;
-            case SHIP_STATE_MISSED : 
-                console.log('T as deja shooter ici et c est vide')
-                break;  
-            case SHIP_STATE_TOUCHED : 
-                console.log('T as deja coulé ce truc')
-                break; 
-            default :
-                console.log('Pas possible ici man')
-                break; 
+        if (playerName ===  'playerOneData')  {
+            opponentBoard = this.state.playerTwoData.formationBoard;
+            currentPlayerGameBoard = [...this.state.playerOneData.gameBoard];
+        } else {
+            opponentBoard = this.state.playerOneData.formationBoard;
+            currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard];
         }
-    }
 
-    playOnPlayerTwoBoard = (caseNum, rowNum) => {
-        const playerOneBoard = this.state.playerOneData.formationBoard;
-        let currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard];
-
-        switch (playerOneBoard[rowNum][caseNum]) {
+        switch (opponentBoard[rowNum][caseNum]) {
             case SLOT_WATER : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_MISSED;
                 this.setState({
                     ...this.state,
-                    playerTwoData: {
-                        ...this.state.playerTwoData,
+                    [playerName]: {
+                        ...this.state[playerName],
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () =>  this.state); 
+                })
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
                 this.setState({
                     ...this.state,
-                    playerTwoData: {
-                        ...this.state.playerTwoData,
+                    [playerName]: {
+                        ...this.state[playerName],
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () =>  this.state);
+                })
                 break;
-            case SHIP_STATE_MISSED : 
-                console.log('T as deja shooter ici et c est vide')
-                break;  
-            case SHIP_STATE_TOUCHED : 
-                console.log('T as deja coulé ce truc')
-                break; 
             default :
-                console.log('Pas possible ici man')
+                alert('Pas possible ici man !')
                 break; 
         }
     }
