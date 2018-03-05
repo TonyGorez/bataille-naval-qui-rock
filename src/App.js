@@ -119,7 +119,7 @@ class App extends Component {
 
     playOnPlayerTwoBoard = (caseNum, rowNum) => {
         const playerOneBoard = this.state.playerOneData.formationBoard;
-        const currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard];
+        let currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard];
 
         switch (playerOneBoard[rowNum][caseNum]) {
             case SLOT_WATER : 
@@ -130,7 +130,7 @@ class App extends Component {
                         ...this.state.playerTwoData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () => console.log(this.state.playerTwoData.gameBoard));
+                }, () =>  currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard]);
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
@@ -140,7 +140,7 @@ class App extends Component {
                         ...this.state.playerTwoData,
                         gameBoard: currentPlayerGameBoard
                     }
-                }, () => console.log(this.state.playerTwoData.gameBoard));
+                }, () =>  currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard]);
                 break;
             case SHIP_STATE_MISSED : 
                 console.log('T as deja shooter ici et c est vide')
