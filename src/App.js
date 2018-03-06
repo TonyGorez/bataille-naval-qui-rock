@@ -75,18 +75,18 @@ class App extends Component {
     }
 
     putBombOnBoard = (caseNum, rowNum, playerName) => {
-        let opponentBoard = [];
+        let opponentFormationBoard = [];
         let currentPlayerGameBoard = [];
 
         if (playerName ===  'playerOneData')  {
-            opponentBoard = this.state.playerTwoData.formationBoard;
+            opponentFormationBoard = this.state.playerTwoData.formationBoard;
             currentPlayerGameBoard = [...this.state.playerOneData.gameBoard];
         } else {
-            opponentBoard = this.state.playerOneData.formationBoard;
+            opponentFormationBoard = this.state.playerOneData.formationBoard;
             currentPlayerGameBoard = [...this.state.playerTwoData.gameBoard];
         }
 
-        switch (opponentBoard[rowNum][caseNum]) {
+        switch (opponentFormationBoard[rowNum][caseNum]) {
             case SLOT_WATER : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_MISSED;
                 this.setState({
