@@ -20,13 +20,13 @@ class App extends Component {
         this.state = {
             playerOneData: {
                 isAllShipOnBoard: false,
-                reaminingShip: 0,
+                opponentRemainingShip: 0,
                 formationBoard: this.getIntializedBoard(),
                 gameBoard: this.getIntializedBoard()
             },
             playerTwoData: {
                 isAllShipOnBoard: false,
-                reaminingShip: 0,
+                opponentRemainingShip: 0,
                 formationBoard: this.getIntializedBoard(),
                 gameBoard: this.getIntializedBoard()
             },
@@ -77,6 +77,7 @@ class App extends Component {
     putBombOnBoard = (caseNum, rowNum, playerName) => {
         let opponentFormationBoard = [];
         let currentPlayerGameBoard = [];
+        let opponentRemainingShip; 
 
         if (playerName ===  'playerOneData')  {
             opponentFormationBoard = this.state.playerTwoData.formationBoard;
@@ -99,13 +100,17 @@ class App extends Component {
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
+                this.state[playerName].opponentRemainingShip >= (MAX_SHIP_PER_PLAYER)
+                ? alert(playerName + ' ' + 'WON')
+                : opponentRemainingShip = this.state[playerName].opponentRemainingShip +1;
                 this.setState({
                     ...this.state,
                     [playerName]: {
                         ...this.state[playerName],
-                        gameBoard: currentPlayerGameBoard
+                        gameBoard: currentPlayerGameBoard,
+                        opponentRemainingShip
                     }
-                })
+                }, console.log(this.state[playerName].opponentRemainingShip))
                 break;
             default :
                 alert('Pas possible ici man !')
