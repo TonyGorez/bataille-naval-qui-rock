@@ -100,8 +100,8 @@ class App extends Component {
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
-                this.state[playerName].opponentRemainingShip >= (MAX_SHIP_PER_PLAYER)
-                ? alert(playerName + ' ' + 'WON')
+                this.state[playerName].opponentRemainingShip >= (MAX_SHIP_PER_PLAYER - 1)
+                ? this.endOfGame(playerName)
                 : opponentRemainingShip = this.state[playerName].opponentRemainingShip +1;
                 this.setState({
                     ...this.state,
@@ -110,12 +110,31 @@ class App extends Component {
                         gameBoard: currentPlayerGameBoard,
                         opponentRemainingShip
                     }
-                }, console.log(this.state[playerName].opponentRemainingShip))
+                })
                 break;
             default :
                 alert('Pas possible ici man !')
                 break; 
         }
+    }
+
+    endOfGame = (playerName) => {
+        const resetIsAllShipOnBoard = false; 
+
+        alert(`End of Game : ${playerName} is Won !`); 
+        this.setState({
+            ...this.state,
+                playerOneData: {
+                    ...this.state.playerOneData,
+                    isAllShipOnBoard: resetIsAllShipOnBoard,
+                    formationBoard: this.getIntializedBoard()
+                    },
+                playerTwoData : {
+                    ...this.state.playerTwoData,
+                    isAllShipOnBoard: resetIsAllShipOnBoard,
+                    formationBoard: this.getIntializedBoard()
+                }
+        }, () => console.log(this.state))
     }
 
     render() {
