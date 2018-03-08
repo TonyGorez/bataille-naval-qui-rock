@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash'; 
 
 import './App.css';
 
@@ -35,7 +36,22 @@ class App extends Component {
         this.shipOnBoard = {
             playerOneData: 0,
             playerTwoData: 0
-        }
+        };
+
+        this.initialSate = {
+            playerOneData: {
+                isAllShipOnBoard: false,
+                opponentRemainingShip: 0,
+                formationBoard: this.getIntializedBoard(),
+                gameBoard: this.getIntializedBoard()
+            },
+            playerTwoData: {
+                isAllShipOnBoard: false,
+                opponentRemainingShip: 0,
+                formationBoard: this.getIntializedBoard(),
+                gameBoard: this.getIntializedBoard()
+            },
+        };
     }
 
     getIntializedBoard = () => {
@@ -119,22 +135,18 @@ class App extends Component {
     }
 
     endOfGame = (playerName) => {
-        const resetIsAllShipOnBoard = false; 
-
+        const newState = _.cloneDeep(this.initialSate); 
+        
         alert(`End of Game : ${playerName} is Won !`); 
         this.setState({
             ...this.state,
                 playerOneData: {
-                    ...this.state.playerOneData,
-                    isAllShipOnBoard: resetIsAllShipOnBoard,
-                    formationBoard: this.getIntializedBoard()
-                    },
-                playerTwoData : {
-                    ...this.state.playerTwoData,
-                    isAllShipOnBoard: resetIsAllShipOnBoard,
-                    formationBoard: this.getIntializedBoard()
+                    ...newState.playerOneData
+                },
+                playerTwoData: {
+                    ...newState.playerTwoData
                 }
-        }, () => console.log(this.state))
+        }, () => console.log(this.state));
     }
 
     render() {
