@@ -6,61 +6,46 @@ import './App.css';
 import GameView from './components/GameView/GameView';
 import InitView from './components/InitView/InitView';  
 
-const MAX_SHIP_PER_PLAYER = 10;
+const MAX_SHIP_PER_PLAYER = 2;
 const SHIP_STATE_TOUCHED = "X";
 const SHIP_STATE_MISSED = "M";
 const SLOT_BOAT = 1; 
 const SLOT_WATER = 0;
-const BOARD_SIZE = 10;
+const BOARD_SIZE = 4;
+const initialState = {
+    playerOneData: {
+        isAllShipOnBoard: false,
+        opponentRemainingShip: 0,
+        formationBoard: getIntializedBoard(),
+        gameBoard: getIntializedBoard()
+    },
+    playerTwoData: {
+        isAllShipOnBoard: false,
+        opponentRemainingShip: 0,
+        formationBoard: getIntializedBoard(),
+        gameBoard: getIntializedBoard()
+    },
+};
+function getIntializedBoard() {
+    const board = []; 
+    for (let i = 0; i < BOARD_SIZE; i++) {
+        board[i] = new Array(BOARD_SIZE);
+        board[i].fill(SLOT_WATER);
+    }
+    return board; 
+};
 
 class App extends Component {
 
     constructor(props) {
         super(props); 
 
-        this.state = {
-            playerOneData: {
-                isAllShipOnBoard: false,
-                opponentRemainingShip: 0,
-                formationBoard: this.getIntializedBoard(),
-                gameBoard: this.getIntializedBoard()
-            },
-            playerTwoData: {
-                isAllShipOnBoard: false,
-                opponentRemainingShip: 0,
-                formationBoard: this.getIntializedBoard(),
-                gameBoard: this.getIntializedBoard()
-            },
-        };
+        this.state = _.cloneDeep(initialState); 
 
         this.shipOnBoard = {
             playerOneData: 0,
             playerTwoData: 0
         };
-
-        this.initialSate = {
-            playerOneData: {
-                isAllShipOnBoard: false,
-                opponentRemainingShip: 0,
-                formationBoard: this.getIntializedBoard(),
-                gameBoard: this.getIntializedBoard()
-            },
-            playerTwoData: {
-                isAllShipOnBoard: false,
-                opponentRemainingShip: 0,
-                formationBoard: this.getIntializedBoard(),
-                gameBoard: this.getIntializedBoard()
-            },
-        };
-    }
-
-    getIntializedBoard = () => {
-        const board = []; 
-        for (let i = 0; i <= BOARD_SIZE; i++) {
-            board[i] = new Array(10);
-            board[i].fill(SLOT_WATER);
-        }
-        return board; 
     }
 
     putBoatOnBoard = (caseNum, rowNum, playerName) => {
@@ -116,17 +101,20 @@ class App extends Component {
                 break;
             case SLOT_BOAT : 
                 currentPlayerGameBoard[rowNum][caseNum] = SHIP_STATE_TOUCHED;
-                this.state[playerName].opponentRemainingShip >= (MAX_SHIP_PER_PLAYER - 1)
-                ? this.endOfGame(playerName)
-                : opponentRemainingShip = this.state[playerName].opponentRemainingShip +1;
-                this.setState({
-                    ...this.state,
-                    [playerName]: {
-                        ...this.state[playerName],
-                        gameBoard: currentPlayerGameBoard,
-                        opponentRemainingShip
-                    }
-                })
+
+                if (this.state[playerName].opponentRemainingShip >= (MAX_SHIP_PER_PLAYER - 1)) {
+                    this.endOfGame(playerName)
+                } else {
+                    opponentRemainingShip = this.state[playerName].opponentRemainingShip +1
+                    this.setState({
+                        ...this.state,
+                        [playerName]: {
+                            ...this.state[playerName],
+                            gameBoard: currentPlayerGameBoard,
+                            opponentRemainingShip
+                        }
+                    })
+                }
                 break;
             default :
                 alert('Pas possible ici man !')
@@ -135,19 +123,12 @@ class App extends Component {
     }
 
     endOfGame = (playerName) => {
-        const newState = _.cloneDeep(this.initialSate); 
-        
-        alert(`End of Game : ${playerName} is Won !`); 
-        this.setState({
-            ...this.state,
-                playerOneData: {
-                    ...newState.playerOneData
-                },
-                playerTwoData: {
-                    ...newState.playerTwoData
-                }
-        }, () => console.log(this.state));
+        const newState = _.cloneDeep(initialState);
+        alert(`End of Game : ${playerName} is Won !`);
+        this.setState({...newState});
     }
+
+
 
     render() {
         return (
